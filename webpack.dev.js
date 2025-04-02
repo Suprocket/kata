@@ -4,6 +4,7 @@ import { merge } from 'webpack-merge';
 import common from './webpack.common.js';
 import { dirname } from "node:path";
 import { fileURLToPath } from "url";
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,6 +25,16 @@ const __dirname = dirname(__filename);
          test: /\.(woff|woff2|eot|ttf|otf)$/i,
          type: "asset/resource",
        },
+       {
+         test: /\.js$/,
+         exclude: /node_modules/,
+         use: {
+           loader: "babel-loader",
+           options: {
+             presets: ["@babel/preset-env"],
+           },
+         },
+       }
      ],
    },
    devtool: "inline-source-map",
